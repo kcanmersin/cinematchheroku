@@ -1,8 +1,0 @@
-# Python
-__pycache__/
-*.py[cod]
-env
-
-# Docker 
-Dockerfile
-.dockerignore
