@@ -50,7 +50,7 @@ class Movie(models.Model):
     release_date = models.IntegerField()
     runtime = models.FloatField()  
     vote_average = models.FloatField(max_length=255)  # Updated to DecimalField
-    vote_count = models.IntegerField()
+    vote_count = models.FloatField(max_length=255)
     popularity = models.FloatField(max_length=255)  # Updated to DecimalField
 
     def get_similar_movies(self):
