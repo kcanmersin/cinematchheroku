@@ -66,12 +66,38 @@
 
 
 
+# import csv
+# from django.core.management.base import BaseCommand
+# from APImovie.models import Crew  # "yourapp" yerine ilgili uygulamanızın adını kullanın
+
+# class Command(BaseCommand):
+#     help = 'Load a list of crew members from a CSV file into the database'
+
+#     def add_arguments(self, parser):
+#         parser.add_argument('csv_file', type=str, help='The CSV file to import')
+
+#     def handle(self, *args, **kwargs):
+#         file_path = kwargs['csv_file']
+
+#         with open(file_path, 'r', encoding='utf-8') as file:
+#             reader = csv.reader(file)
+#             next(reader)  # İlk satırı atlayarak başlayın (başlık satırı varsayılır)
+
+#             for row in reader:
+#                 crew_member = Crew(
+#                     id=row[0],
+#                     name=row[1],
+#                     role=row[2]
+#                 )
+#                 crew_member.save()
+
+#         self.stdout.write(self.style.SUCCESS('Crew members imported successfully!'))
 import csv
 from django.core.management.base import BaseCommand
-from APImovie.models import Crew  # "yourapp" yerine ilgili uygulamanızın adını kullanın
+from APImovie.models import MovieCrew, Movie, Crew  # "yourapp" yerine ilgili uygulamanızın adını kullanın
 
 class Command(BaseCommand):
-    help = 'Load a list of crew members from a CSV file into the database'
+    help = 'Load a list of movie-crew associations from a CSV file into the database'
 
     def add_arguments(self, parser):
         parser.add_argument('csv_file', type=str, help='The CSV file to import')
@@ -84,11 +110,15 @@ class Command(BaseCommand):
             next(reader)  # İlk satırı atlayarak başlayın (başlık satırı varsayılır)
 
             for row in reader:
-                crew_member = Crew(
-                    id=row[0],
-                    name=row[1],
-                    role=row[2]
-                )
-                crew_member.save()
+                movie_id = row[0]
+                crew_id = row[1]
 
-        self.stdout.write(self.style.SUCCESS('Crew members imported successfully!'))
+                movie = Movie.objects.get(id=movie_id)
+                crew = Crew.objects.get(id=crew_id)
+
+                movie_crew, created = MovieCrew.objects.get_or_create(
+                    movie=movie,
+                    crew=crew
+                )
+
+        self.stdout.write(self.style.SUCCESS('Movie-Crew associations imported successfully!'))
