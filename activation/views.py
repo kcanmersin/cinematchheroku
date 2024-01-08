@@ -31,7 +31,7 @@ from django.shortcuts import render
 @csrf_exempt
 def reset_password_confirm(request, uid, token):
     # Assuming your Djoser reset password confirmation endpoint is /auth/users/reset_password_confirm/
-    reset_password_confirm_url = 'http://127.0.0.1:8000/auth/users/reset_password_confirm/'
+    reset_password_confirm_url = 'https://cinematchapiv2-51901085735b.herokuapp.com/auth/users/reset_password_confirm/'
 
     # Check if it's a GET request to render a form or a POST request to handle the password reset
     if request.method == 'GET':
