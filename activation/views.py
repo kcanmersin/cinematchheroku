@@ -4,7 +4,8 @@ from django.shortcuts import redirect
 
 def activate_user(request, uid, token):
     # Assuming your Djoser activation endpoint is /auth/users/activation/
-    activation_url = 'http://127.0.0.1:8000/auth/users/activation/'
+    activation_url = 'https://cinematchapiv2-51901085735b.herokuapp.com/auth/users/activation/'
+    
 
     # Create a dictionary with uid and token
     data = {
