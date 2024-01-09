@@ -45,6 +45,11 @@ print("Similar Users and their Similarity Scores:")
 print(similar_users_scores)
 # %%
 
+def user_to_user_fun(id):
+    user_id = id  # Example user ID
+    similar_users_scores = find_similar_users(user_id, cosine_sim_matrix, top_n=10)
+    return similar_users_scores
+
 
 ''''''''' below  code is takes long to run
 # %%
