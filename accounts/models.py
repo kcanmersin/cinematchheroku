@@ -186,6 +186,9 @@ class UserProfile(models.Model):
         return person_to_person_rate(self.user.id, other_user_profile.user.id)
     
     def best_matched_movie_poster(self, other_user):
+        for_you = self.get_for_you()
+        if for_you is not None:
+            return for_you[0].poster_path
         return "https://image.tmdb.org/t/p/w500/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg"
 
     def __str__(self):
