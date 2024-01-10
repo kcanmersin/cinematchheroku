@@ -3,8 +3,16 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 def person_to_person_rate(user_id_1, user_id_2):
-    # from AI.usertouser import 
-    return 90.0
+    from AI.usertouser import user_to_user_fun
+    # Get the similarity score
+    similarity_score = user_to_user_fun(user_id_1)
+
+    # get the similarity score for user_id_2
+    similarity_score = similarity_score["similar_userId"] == user_id_2 
+    
+    # Return the rate of similarity
+    return similarity_score
+
 
 def person_to_movie_rate(user_id, movie_id):
     return 90.0
@@ -78,15 +86,11 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
             MovieList.objects.create(title="watched_movies", user=self)
 
     def get_best_matched_users(self):
-        from AI import usertouser
+        from AI.usertouser import user_to_user_fun
         # Get the top 10 similar users
-        similar_users = usertouser.user_to_user_fun(self.id)
-        # Get the similarity scores
-        similarity_scores = similar_users.values
-        # Get the IDs of the similar users
-        similar_user_ids = similar_users.index
-        # Return the rate of similarity and ids of the similar users
-        return similarity_scores, similar_user_ids
+        similar_users = user_to_user_fun(self.id)
+
+        return similar_users    
 
     def get_username(self):
         return self.username
