@@ -7,7 +7,7 @@ from django.urls import reverse
 class MovieSearchSerializer(serializers.ModelSerializer):
     class Meta:
         model = Movie
-        fields = ('title', 'poster_path', 'release_date')
+        fields = ('id','title', 'poster_path', 'release_date')
 
 
 
@@ -235,6 +235,11 @@ class test(serializers.ModelSerializer):
     class Meta:
         model = Movie
         fields = ('id', 'title', 'poster_path','release_date') # votes eklendi
+class testGenre(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'poster_path','release_date')
 
 class MovieListSerializer(serializers.ModelSerializer):
     upvotes = serializers.IntegerField(source='votes.filter(is_upvote=True).count', read_only=True)

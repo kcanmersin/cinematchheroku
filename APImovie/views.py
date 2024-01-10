@@ -4,7 +4,7 @@ from .forms import CommentForm
 from rest_framework import viewsets, generics,status
 from .models import Comment, Movie, MovieList, Vote
 from django.views.generic import ListView, DetailView, CreateView
-from .serializers import CommentSerializer, MovieSerializer, MovieListSerializer, VoteSerializer,RateSerializer,MovieSearchSerializer,UserSerializer,MovieSForYouSerializer
+from .serializers import CommentSerializer, MovieSerializer, MovieListSerializer, VoteSerializer,RateSerializer,MovieSearchSerializer,UserSerializer,MovieSForYouSerializer, test,testGenre
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from django.shortcuts import render, get_object_or_404
@@ -242,7 +242,7 @@ class VoteView(viewsets.ModelViewSet):
 
 from rest_framework.generics import ListAPIView
 class GenreMovieListView(ListAPIView):
-    serializer_class = MovieSerializer
+    serializer_class = testGenre
 
     def get_queryset(self):
         genre_slug = self.kwargs['genre_slug']
