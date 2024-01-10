@@ -247,12 +247,18 @@ class MatchedPeopleView(APIView):
                 other_user_profile = get_object_or_404(UserProfile, user__id=user_id)
                 movie_count = other_user_profile.get_watched_movie_count()
 
+                follower_count = other_user_profile.get_followers_count(other_user_profile.user)
+                following_count = other_user_profile.get_following_count(other_user_profile.user)
+
+
                 # Append user information to the list
                 best_matched_people.append({
                     'username': other_user_profile.user.username,
                     'profile_picture': request.build_absolute_uri(other_user_profile.profile_picture.url) if other_user_profile.profile_picture else None,
                     'rate_ratio': rate_ratio,
                     'movie_count': movie_count,
+                    'follower_count':follower_count,
+                    'following_count':following_count,
                 })
 
             # Include best matched people information in the response data
