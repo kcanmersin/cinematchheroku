@@ -7,6 +7,9 @@ import pandas as pd
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 
+import psycopg2 
+import dj_database_url
+
 def create_user_item_matrix(ratings):
     user_item_matrix = ratings.pivot(index='userId', columns='tmdbId', values='rating')
     user_item_matrix = user_item_matrix.fillna(0)  # Fill NaN with 0
@@ -16,25 +19,46 @@ def calculate_cosine_similarity(user_item_matrix):
     cosine_sim = cosine_similarity(user_item_matrix)
     return pd.DataFrame(cosine_sim, index=user_item_matrix.index, columns=user_item_matrix.index)
 
-def find_similar_users(user_id, cosine_sim_matrix=None, top_n=10):
-    if user_id not in cosine_sim_matrix.index or cosine_sim_matrix is None:
-        
-        # ratings datası importu burda gelecek
 
-        user_item_matrix = create_user_item_matrix(ratings)
-        cosine_sim_matrix = calculate_cosine_similarity(user_item_matrix)
-        cosine_sim_matrix.to_pickle('pickle_files/user_user_cosine_sim_matrix.pkl')
+def read_ratings_from_database():
+    
+    db_host = 'dpg-cmdfeuo21fec73d33khg-a.frankfurt-postgres.render.com'
+    db_name = 'cinematchfr'
+    db_user = 'cinematchfr_user'
+    db_password = 'KVKMAal90pm4OIde4IcqbUsIBYfvrAoP'
 
-    else:
-        cosine_sim_matrix = pd.read_pickle('pickle_files/user_user_cosine_sim_matrix.pkl')
+    # Connect to the PostgreSQL database server
+    with psycopg2.connect(host=db_host, database=db_name, user=db_user, password=db_password) as conn:
+        with conn.cursor() as cur:
+            # Fetch entire ratings dataset
+            sql_query = """SELECT "userId", "tmdbId", "rating" FROM "ratings";"""
+            cur.execute(sql_query)
+            ratings = cur.fetchall()
 
+    # Convert to DataFrame
+    ratings_df = pd.DataFrame(ratings, columns=['userId', 'tmdbId', 'rating'])
 
+    return ratings_df
+
+def find_similar_users(user_id, top_n=10):
+    # Import entire ratings data from the PostgreSQL database
+    ratings = read_ratings_from_database()
+
+    # Create the user-item matrix and calculate cosine similarity
+    user_item_matrix = create_user_item_matrix(ratings)
+    cosine_sim_matrix = calculate_cosine_similarity(user_item_matrix)
+
+    # Ensure user_id is in the cosine similarity matrix
+    if user_id not in cosine_sim_matrix.index:
+        #return empty DataFrame 
+        return pd.DataFrame(columns=['userId', 'similarity_score'])
+    
 
     # Get similarity scores for the user and sort them
     sim_scores = cosine_sim_matrix.loc[user_id].sort_values(ascending=False)
 
-    # Get top n most similar users and their scores
-    top_users = sim_scores.iloc[1:min(top_n+1, len(sim_scores))]  # Exclude the user itself and limit if needed
+    # Get top n most similar users and their scores, excluding the user itself
+    top_users = sim_scores.iloc[1:min(top_n + 1, len(sim_scores))]
 
     return top_users
 
