@@ -82,11 +82,22 @@ def find_similar_users(user_id, top_n=10):
 #ratings = read_ratings_from_database()
 #user_item_matrix = create_user_item_matrix(ratings)
 #cosine_sim_matrix = calculate_cosine_similarity(user_item_matrix)
-#
-#
+
+#print(ratings)
+#print('---------------------')
+#print(user_item_matrix)
+#print('---------------------')
+#print(cosine_sim_matrix)
+
+#%%
+
+
 #user_id_list = ratings['userId'].unique()
 #for user_id in user_id_list:
-#    similar_users = find_similar_users(user_id, cosine_sim_matrix)
+#    similar_users = find_similar_users(user_id)
+#    # print the user id and the similar users
+#    print( 'user_id: ', user_id)
+#    
 #    print(similar_users)
 #    print('---------------------')
 
