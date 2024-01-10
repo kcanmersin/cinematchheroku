@@ -16,9 +16,19 @@ def calculate_cosine_similarity(user_item_matrix):
     cosine_sim = cosine_similarity(user_item_matrix)
     return pd.DataFrame(cosine_sim, index=user_item_matrix.index, columns=user_item_matrix.index)
 
-def find_similar_users(user_id, cosine_sim_matrix, top_n=10):
-    if user_id not in cosine_sim_matrix.index:
-        raise ValueError(f"User ID {user_id} is not in the dataset")
+def find_similar_users(user_id, cosine_sim_matrix=None, top_n=10):
+    if user_id not in cosine_sim_matrix.index or cosine_sim_matrix is None:
+        
+        # ratings datası importu burda gelecek
+
+        user_item_matrix = create_user_item_matrix(ratings)
+        cosine_sim_matrix = calculate_cosine_similarity(user_item_matrix)
+        cosine_sim_matrix.to_pickle('pickle_files/user_user_cosine_sim_matrix.pkl')
+
+    else:
+        cosine_sim_matrix = pd.read_pickle('pickle_files/user_user_cosine_sim_matrix.pkl')
+
+
 
     # Get similarity scores for the user and sort them
     sim_scores = cosine_sim_matrix.loc[user_id].sort_values(ascending=False)
@@ -47,7 +57,7 @@ print(similar_users_scores)
 
 def user_to_user_fun(id):
     user_id = id  # Example user ID
-    similar_users_scores = find_similar_users(user_id, cosine_sim_matrix, top_n=10)
+    similar_users_scores = find_similar_users(user_id, top_n=10)
     return similar_users_scores
 
 
