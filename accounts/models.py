@@ -7,8 +7,10 @@ def person_to_person_rate(user_id_1, user_id_2):
     # Get the similarity score
     similarity_score = user_to_user_fun(user_id_1)
 
+    print(similarity_score)
+
     # get the similarity score for user_id_2
-    similarity_score = similarity_score["similar_userId"] == user_id_2 
+    similarity_score = similarity_score[similarity_score['similar_userId'] == user_id_2]['similarity_score'].values[0] 
     
     # Return the rate of similarity
     return similarity_score

@@ -237,7 +237,7 @@ class MatchedPeopleView(APIView):
         if request.user.is_authenticated:
             # Assuming get_best_matched_users() is available in the UserProfile model
             user_profile = get_object_or_404(UserProfile, user=request.user)
-            best_matched_df = user_profile.get_best_matched_users()
+            best_matched_df = user_profile.user.get_best_matched_users()
 
             best_matched_people = []
             for _, row in best_matched_df.iterrows():

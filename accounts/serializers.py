@@ -53,9 +53,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def get_match_rate(self, obj): # That is looking through user profile
         current_user_profile = self.context['request'].user.profile.first()  # Get the first profile 
-        #print(current_user_profile)
-        #print(" self.context['request']: " , self.context['request'].user.profile.first())
-        #print("obj: ", obj)
+        # print(current_user_profile)
+        # print(" self.context['request']: " , self.context['request'].user.profile.first())
+        # print("obj: ", obj)
         if current_user_profile:
             return current_user_profile.calculate_match_rate(obj)
     
