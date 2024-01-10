@@ -70,8 +70,7 @@ def find_similar_users(user_id, top_n=10):
     sim_scores['similarity_score'] = sim_scores['similarity_score'].apply(lambda x: round(x*100,2))
 
     # Filter out the user themselves and any zero similarity scores
-    #sim_scores = sim_scores[(sim_scores['similar_userId'] != user_id) & (sim_scores['similarity_score'] > 0)]
-    sim_scores = sim_scores[(sim_scores['similar_userId'] != user_id)]
+    sim_scores = sim_scores[(sim_scores['similar_userId'] != user_id) & (sim_scores['similarity_score'] > 0)]
 
     # Sort by similarity score in descending order and select top N
     top_users = sim_scores.sort_values(by='similarity_score', ascending=False).head(top_n)
