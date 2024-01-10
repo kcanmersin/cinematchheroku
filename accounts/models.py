@@ -15,7 +15,7 @@ def person_to_person_rate(user_id_1, user_id_2):
 
     
     # Return the rate of similarity
-    return similarity_score
+    return user_similarity
 
 
 def person_to_movie_rate(user_id, movie_id):
