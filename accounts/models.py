@@ -187,9 +187,17 @@ class UserProfile(models.Model):
     
     def best_matched_movie_poster(self, other_user):
         for_you_movie_ids = self.get_for_you()
+        print(for_you_movie_ids)
         if for_you_movie_ids is not None:
-            for_you = [movie for movie in for_you_movie_ids]
-            return for_you[0].poster_path
+            # it will return the first movie's poster path
+            # [(7, 862, 4.0), (7, 807, 7.5), (7, 710, 3.0), (7, 393, 5.0)] here is the for_you_movie_ids format. 
+            # we need to get the movie_id from this list and then get the poster_path from the movie_id
+            from APImovie.models import Movie
+            #for_you_movie_ids = [movie_id[1] for movie_id in for_you_movie_ids]
+            for_you_movie_ids = Movie.objects.filter(id__in=for_you_movie_ids).values_list('poster_path', flat=True)
+            print(for_you_movie_ids)
+            if len(for_you_movie_ids) > 0:
+                return for_you_movie_ids[0]
         return "https://image.tmdb.org/t/p/w500/6CoRTJTmijhBLJTUNoVSUNxZMEI.jpg"
 
     def __str__(self):
