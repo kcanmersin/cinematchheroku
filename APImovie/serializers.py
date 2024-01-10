@@ -16,7 +16,7 @@ class MovieSForYouSerializer(serializers.ModelSerializer):
         
     class Meta:
             model = Movie
-            fields = '__all__'
+            fields = ('id', 'title', 'poster_path','release_date')
 
   
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -230,11 +230,16 @@ class VoteSerializer(serializers.ModelSerializer):
             defaults={'is_upvote': validated_data.get('is_upvote', False)}
         )
         return vote
+class test(serializers.ModelSerializer):
+
+    class Meta:
+        model = Movie
+        fields = ('id', 'title', 'poster_path','release_date') # votes eklendi
 
 class MovieListSerializer(serializers.ModelSerializer):
     upvotes = serializers.IntegerField(source='votes.filter(is_upvote=True).count', read_only=True)
     downvotes = serializers.IntegerField(source='votes.filter(is_upvote=False).count', read_only=True) # Burayı kontrol et
-    movies = MovieSerializer(many=True, read_only=True)
+    movies = test(many=True, read_only=True)
     votes = VoteSerializer(many=True, read_only=True)  # Include votes in the response
     total_time_of_movies = serializers.IntegerField(read_only=True)
     #movies = serializers.ListField(child=serializers.IntegerField(), write_only=True)

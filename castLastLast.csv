@@ -1,4 +1,4 @@
-id,actor_id,tmdbId,character_name
+id,actor_id,movie_id,character_name
 0,31,862,Woody (voice)
 1,31,568,Woody (voice)
 2,31,13,Woody (voice)

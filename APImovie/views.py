@@ -17,7 +17,6 @@ from rest_framework import filters
 from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 
-
 class ActorMovieDetail(APIView):
     permission_classes = [AllowAny]
 
@@ -192,11 +191,15 @@ class MovieViewSet(viewsets.ModelViewSet):
 
 
 class MovieListViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+
     queryset = MovieList.objects.all()
     serializer_class = MovieListSerializer
 
 from rest_framework.permissions import IsAuthenticated
 class MovieListCreateView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
+
     queryset = MovieList.objects.all()
     serializer_class = MovieListSerializer
     permission_classes = [IsAuthenticated]
@@ -215,6 +218,8 @@ class MovieListCreateView(generics.CreateAPIView):
         serializer.save(user=self.request.user)
 
 class MovieListDetailView(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [AllowAny]
+
     queryset = MovieList.objects.all()
     serializer_class = MovieListSerializer
 class VoteView(viewsets.ModelViewSet):
@@ -247,7 +252,8 @@ class GenreMovieListView(ListAPIView):
 
 from rest_framework.views import APIView
 class MovieListRetrieveAddView(APIView):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request, *args, **kwargs):
         movie_lists = MovieList.objects.filter(user=request.user)
@@ -284,6 +290,8 @@ class MovieListRetrieveAddView(APIView):
     
 
 class UsersMovieListView(generics.ListAPIView):
+    permission_classes = [AllowAny]
+
     serializer_class = MovieListSerializer
 
     def get_queryset(self):
@@ -407,6 +415,7 @@ from .models import Movie, Movie_Genre
 from django.db.models import Q
 
 class MovieListFilterView(APIView):
+    
     permission_classes = [AllowAny]
     def post(self, request, list_id, *args, **kwargs):
         try:
