@@ -71,7 +71,7 @@ class Following(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = get_object_or_404(User, pk = self.kwargs["pk"])
-        return Follower.objects.filter(is_followed_by = user)
+        return Follower.objects.filter(user = user)
 
 class Followers(generics.ListCreateAPIView):
     queryset = Follower.objects.all()
@@ -80,7 +80,8 @@ class Followers(generics.ListCreateAPIView):
 
     def get_queryset(self):
         user = get_object_or_404(User, pk = self.kwargs["pk"])
-        return Follower.objects.filter(user = user)        
+        #print(user)
+        return Follower.objects.filter(is_followed_by = user)        
         #return Follower.objects.filter(user = user).exclude(is_followed_by = user)
 
 
