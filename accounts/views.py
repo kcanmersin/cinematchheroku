@@ -254,6 +254,10 @@ class MatchedPeopleView(APIView):
                     'profile_picture': request.build_absolute_uri(other_user_profile.profile_picture.url) if other_user_profile.profile_picture else None,
                     'rate_ratio': rate_ratio,
                     'movie_count': movie_count,
+                    'following': user_profile.is_following(other_user_profile.user),
+                    'follower': other_user_profile.is_following(user_profile.user),
+                    
+
                 })
 
             # Include best matched people information in the response data
