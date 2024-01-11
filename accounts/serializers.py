@@ -40,8 +40,10 @@ class UserProfileSerializer(serializers.ModelSerializer):
         return False
 
     def get_watched_movie_count(self, obj):
-        current_user_profile = self.context['request'].user.profile.first()
+#        current_user_profile = self.context['request'].user.profile.first()
+        current_user_profile = obj.user.profile.first()
         if current_user_profile:
+            print(current_user_profile)
             return current_user_profile.get_watched_movie_count()
         return 0
 
