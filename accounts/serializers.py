@@ -36,13 +36,24 @@ class FollowerSerializer(serializers.ModelSerializer):
         return None
 
     def get_user(self, instance):
-        user = instance.user
+        print("instance is: ", instance)
+        print("instance.user is: ", instance.user)
+        print("instance.user.profile is: ", instance.user.user_profile)
+        print("instance.folowed", instance.is_followed_by)
+        user = instance.is_followed_by
         user_profile = user.profile.first()  
+        follower_count = user_profile.get_followers_count(user) if user_profile else 0
+        following_count = user_profile.get_following_count(user) if user_profile else 0
+        rate_ratio = instance.user.user_profile.calculate_match_rate(user_profile) if user_profile else 0
 
         return {
             'id': user.id,
             'username': user.username,
             'profile_picture': self.context['request'].build_absolute_uri(user_profile.profile_picture.url) if user_profile and user_profile.profile_picture else None,
+            'follower_count': follower_count,
+            'following_count': following_count,
+            'rate_ratio': rate_ratio,
+
         }
 
     def get_is_followed_by(self, instance):
