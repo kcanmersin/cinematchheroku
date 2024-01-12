@@ -35,6 +35,22 @@ class FollowerSerializer(serializers.ModelSerializer):
             return data
         return None
 
+    def get_is_followed_by(self, instance):
+        is_followed_by = instance.user
+        is_followed_by_profile = is_followed_by.profile.first()  # Access the UserProfile directly
+        follower_count = is_followed_by_profile.get_followers_count(is_followed_by) if is_followed_by_profile else 0
+        following_count = is_followed_by_profile.get_following_count(is_followed_by) if is_followed_by_profile else 0
+        rate_ratio = instance.is_followed_by.user_profile.calculate_match_rate(is_followed_by_profile) if is_followed_by_profile else 0
+
+        return {
+            'id': is_followed_by.id,
+            'username': is_followed_by.username,
+            'profile_picture': self.context['request'].build_absolute_uri(is_followed_by_profile.profile_picture.url) if is_followed_by_profile and is_followed_by_profile.profile_picture else None,
+            'follower_count': follower_count,
+            'following_count': following_count,
+            'rate_ratio': rate_ratio,
+        }
+
     def get_user(self, instance):
         print("instance is: ", instance)
         print("instance.user is: ", instance.user)
@@ -53,18 +69,8 @@ class FollowerSerializer(serializers.ModelSerializer):
             'follower_count': follower_count,
             'following_count': following_count,
             'rate_ratio': rate_ratio,
-
         }
 
-    def get_is_followed_by(self, instance):
-        is_followed_by = instance.is_followed_by
-        is_followed_by_profile = is_followed_by.profile.first()  # Access the UserProfile directly
-
-        return {
-            'id': is_followed_by.id,
-            'username': is_followed_by.username,
-            'profile_picture': self.context['request'].build_absolute_uri(is_followed_by_profile.profile_picture.url) if is_followed_by_profile and is_followed_by_profile.profile_picture else None,
-        }
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
