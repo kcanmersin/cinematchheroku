@@ -57,8 +57,8 @@ class ForYouView(APIView):
     def get(self, request, *args, **kwargs):
         try:
             # ID'si 2 olan kullanıcı profilini al
-            user_profile = UserProfile.objects.get(user__id=2)
-            #user_profile = UserProfile.objects.get(user=request.user)
+            #user_profile = UserProfile.objects.get(user__id=2)
+            user_profile = UserProfile.objects.get(user=request.user)
 
             recommended_movie_ids = user_profile.get_for_you()  # Kullanıcının önerilen filmlerini alır
 
