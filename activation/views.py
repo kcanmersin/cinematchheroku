@@ -6,7 +6,7 @@ def activate_user(request, uid, token):
     # Assuming your Djoser activation endpoint is /auth/users/activation/
     activation_url = 'https://cinematchapiv2-51901085735b.herokuapp.com/auth/users/activation/'
 
-    front_signin_link = 'https://corleone-cinematch.netlify.app//signin'
+    front_signin_link = 'https://corleone-cinematch.netlify.app/signin'
     
 
     # Create a dictionary with uid and token
