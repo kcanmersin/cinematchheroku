@@ -5,6 +5,8 @@ from django.shortcuts import redirect
 def activate_user(request, uid, token):
     # Assuming your Djoser activation endpoint is /auth/users/activation/
     activation_url = 'https://cinematchapiv2-51901085735b.herokuapp.com/auth/users/activation/'
+
+    front_signin_link = 'https://corleone-cinematch.netlify.app//signin'
     
 
     # Create a dictionary with uid and token
@@ -18,10 +20,10 @@ def activate_user(request, uid, token):
 
     # Check the response and return the result
     if response.status_code == 200:
-        return redirect('http://localhost:5173/signin')
+        return redirect(front_signin_link)
         #return JsonResponse({'message': 'User activated successfully'})
     else:
-        return redirect('http://localhost:5173/signin')
+        return redirect(front_signin_link)
 #        return JsonResponse({'error': 'Failed to activate user'}, status=response.status_code)
     
 from django.views.decorators.csrf import csrf_exempt

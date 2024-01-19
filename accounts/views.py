@@ -74,7 +74,7 @@ class Following(generics.ListCreateAPIView):
         return Follower.objects.filter(user = user)
 
 class Followers(generics.ListCreateAPIView):
-    queryset = Follower.objects.all()
+    #queryset = Follower.objects.all()
     serializer_class = FollowerSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -256,8 +256,6 @@ class MatchedPeopleView(APIView):
                     'movie_count': movie_count,
                     "follower_count": other_user_profile.get_followers_count(other_user_profile.user),
                     "following_count": other_user_profile.get_following_count(other_user_profile.user),
-                    
-                    
 
                 })
 
