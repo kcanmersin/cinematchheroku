@@ -186,7 +186,8 @@ class UserProfile(models.Model):
         return person_to_person_rate(self.user.id, other_user_profile.user.id)
     
     def best_matched_movie_poster(self, other_user):
-        for_you_movie_ids = self.get_for_you()
+        for_you_movie_ids = other_user.get_for_you()
+#        for_you_movie_ids = self.get_for_you()
         #print(for_you_movie_ids)
         if for_you_movie_ids is not None:
             # it will return the first movie's poster path
