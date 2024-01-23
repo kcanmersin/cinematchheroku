@@ -53,6 +53,9 @@ def recommend_for_new_user_content_based(user_ratings, all_movies, cosine_sim, t
     # do not recommend movies that user has already rated
     recommended_movies = recommended_movies[~recommended_movies['id'].isin(user_ratings_df)]
 
+    # change the order of movie rows randomly
+    recommended_movies = recommended_movies.sample(frac=1).reset_index(drop=True)
+    
     return recommended_movies[['original_title', 'id']]
 
 def recommend_for_user(user_ratings, all_movies, cosine_sim, ratings=None,  svd_model=None, top_n=10):
@@ -96,10 +99,8 @@ def recommend_for_user(user_ratings, all_movies, cosine_sim, ratings=None,  svd_
 
 
 def user_to_movie(user_ratings):
-    print(user_ratings)
   
     #ratings, movies = load_movielens_data(str(BASE_DIR / 'AI' / 'ratings.csv'), str(BASE_DIR / 'AI' / 'movies_out.csv'))
-
     
 #    train_collab = 0
 #    if train_collab == 1:
