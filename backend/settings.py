@@ -125,19 +125,19 @@ DATABASES = {
 }
 
 import dj_database_url
-#DATABASES['default'] = dj_database_url.parse('postgres://cinematchfr_user:KVKMAal90pm4OIde4IcqbUsIBYfvrAoP@dpg-cmdfeuo21fec73d33khg-a.frankfurt-postgres.render.com/cinematchfr')
+DATABASES['default'] = dj_database_url.parse('postgres://cinematchfr_user:KVKMAal90pm4OIde4IcqbUsIBYfvrAoP@dpg-cmdfeuo21fec73d33khg-a.frankfurt-postgres.render.com/cinematchfr')
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
+#         "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
+#         "USER": os.environ.get("SQL_USER", "user"),
+#         "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
+#         "HOST": os.environ.get("SQL_HOST", "localhost"),
+#         "PORT": os.environ.get("SQL_PORT", "5432"),
+#     }
+# }
 
 # DATABASES = {
 #     'default': {
