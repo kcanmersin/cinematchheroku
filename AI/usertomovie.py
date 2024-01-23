@@ -46,8 +46,12 @@ def recommend_for_new_user_content_based(user_ratings, all_movies, cosine_sim, t
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)[1:top_n+1]
         similar_movies.update([i[0] for i in sim_scores])
 
+    # get the movies and sort them by vote_average
     recommended_movies = all_movies.iloc[list(similar_movies)]
     recommended_movies = recommended_movies.sort_values(by='vote_average', ascending=False).head(top_n)
+
+    # do not recommend movies that user has already rated
+    recommended_movies = recommended_movies[~recommended_movies['id'].isin(user_ratings_df)]
 
     return recommended_movies[['original_title', 'id']]
 
@@ -120,4 +124,3 @@ def user_to_movie(user_ratings):
     movie_ids = recommend_for_user(user_ratings, movies, cosine_sim)
 
     return movie_ids
-
