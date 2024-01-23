@@ -58,7 +58,7 @@ def recommend_for_new_user_content_based(user_ratings, all_movies, cosine_sim, t
     recommended_movies = recommended_movies[~recommended_movies['id'].isin(user_ratings_df)]
 
     # change the order of movie rows randomly
-    recommended_movies = recommended_movies.sample(frac=1).reset_index(drop=True)
+    #recommended_movies = recommended_movies.sample(frac=1).reset_index(drop=True)
     
     return recommended_movies[['original_title', 'id']]
 
