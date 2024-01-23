@@ -132,7 +132,7 @@ def main():
     Main function to process movie data from CSV files.
     """
     # Set file paths for input data
-    movies_path = "asd.csv"
+    movies_path = "input.csv"
 
     # Read and process Movies
     movies = pd.read_csv(movies_path, low_memory=False)
