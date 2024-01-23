@@ -48,7 +48,11 @@ def recommend_for_new_user_content_based(user_ratings, all_movies, cosine_sim, t
 
     # get the movies and sort them by vote_average
     recommended_movies = all_movies.iloc[list(similar_movies)]
-    recommended_movies = recommended_movies.sort_values(by='vote_average', ascending=False).head(top_n)
+
+    recommended_movies = recommended_movies.head(top_n)
+
+    # sort movies by vote_average
+    #recommended_movies = recommended_movies.sort_values(by='vote_average', ascending=False).head(top_n)
 
     # do not recommend movies that user has already rated
     recommended_movies = recommended_movies[~recommended_movies['id'].isin(user_ratings_df)]
