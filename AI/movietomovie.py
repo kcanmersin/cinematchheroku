@@ -6,7 +6,6 @@ import numpy as np
 import pickle
 import logging
 
-
 def load_cosine_similarity_matrix(file_path):
     """Load the cosine similarity matrix from a file."""
     try:
@@ -49,11 +48,3 @@ def movie_to_movie(movieId):
     recommended_movie_titles = recommended_movies['title'].tolist()
 
     return recommended_movie_ids, recommended_movie_titles
-
-
-
-
-# %%
-
-#movie_to_movie(27205)  # inception
-# %%
